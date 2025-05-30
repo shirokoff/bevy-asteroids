@@ -19,13 +19,25 @@ const DECELERATION_FACTOR: f32 = 2.0;
 
 fn setup(mut commands: Commands, assets_server: ResMut<AssetServer>) {
     commands.spawn((
-        Player {
-            speed: Vec2 { x: 0.0, y: 0.0 },
-        },
-        Sprite {
-            image: assets_server.load("./PNG/playerShip1_blue.png"),
-            ..default()
-        },
+        (
+            Player {
+                speed: Vec2 { x: 0.0, y: 0.0 },
+            },
+            Sprite {
+                image: assets_server.load("./PNG/playerShip1_blue.png"),
+                ..default()
+            },
+        ),
+        children![(
+            Sprite {
+                image: assets_server.load("./PNG/Effects/fire01.png"),
+                ..default()
+            },
+            Transform {
+                translation: Vec3::new(0.0, -50.0, 0.0),
+                ..default()
+            },
+        )],
     ));
 }
 
