@@ -81,10 +81,10 @@ fn asteroid_movement(time: Res<Time>, mut query: Query<(&mut Transform, &Asteroi
 fn bullet_collision(
     mut commands: Commands,
     mut asteroids: Query<(Entity, &Transform, &Asteroid)>,
-    bullets: Query<&Transform, With<Bullet>>,
+    bullets: Query<(Entity, &Transform), With<Bullet>>,
     assets_server: Res<AssetServer>,
 ) {
-    for bullet_transform in bullets.iter() {
+    for (bullet_entity, bullet_transform) in bullets.iter() {
         for (asteroid_entity, asteroid_transform, asteroid) in asteroids.iter_mut() {
             if bullet_transform
                 .translation
