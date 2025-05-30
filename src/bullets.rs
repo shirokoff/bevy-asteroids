@@ -3,13 +3,13 @@ use bevy::prelude::*;
 
 const BULLET_LINER_SPEED: f32 = 600.0;
 const BULLET_LIFETIME: f32 = 3.0;
-const FIRE_COOLDOWN: f32 = 0.5;
+const FIRE_COOLDOWN: f32 = 0.01;
 
 #[derive(Resource)]
 struct FireRateTimer(Timer);
 
 #[derive(Component)]
-struct Bullet {
+pub struct Bullet {
     speed: Vec2,
 }
 
