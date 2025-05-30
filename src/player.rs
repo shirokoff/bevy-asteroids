@@ -15,7 +15,7 @@ pub struct Player {
 
 const ROTATION_SPEED: f32 = std::f32::consts::PI;
 const THRUST_SPEED: f32 = 10.0;
-const DECELERATION_FACTOR: f32 = 0.98;
+const DECELERATION_FACTOR: f32 = 2.0;
 
 fn setup(mut commands: Commands, assets_server: ResMut<AssetServer>) {
     commands.spawn((
@@ -44,15 +44,18 @@ fn player_movement(
         rotation -= ROTATION_SPEED * time.delta_secs();
     }
 
-    transform.rotate_z(rotation);
-
     if keyboard_input.pressed(KeyCode::ArrowUp) {
         player.speed += forward * THRUST_SPEED * time.delta_secs();
     } else if keyboard_input.pressed(KeyCode::ArrowDown) {
-        player.speed -= forward * THRUST_SPEED * time.delta_secs();
+        let linear_speed = player.speed.length();
+        let new_linear_speed = linear_speed - THRUST_SPEED * time.delta_secs();
+        player.speed = player.speed.normalize_or_zero() * new_linear_speed.max(0.0);
+    } else {
+        let linear_speed = player.speed.length();
+        let new_linear_speed = linear_speed - DECELERATION_FACTOR * time.delta_secs();
+        player.speed = player.speed.normalize_or_zero() * new_linear_speed.max(0.0);
     }
 
-    player.speed *= DECELERATION_FACTOR;
-
+    transform.rotate_z(rotation);
     transform.translation += player.speed.extend(0.0);
 }
