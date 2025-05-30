@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+mod asteroids;
 mod bullets;
 mod player;
 mod space_wrap;
@@ -10,6 +11,7 @@ fn main() {
         .add_plugins(player::PlayerPlugin)
         .add_plugins(space_wrap::SpaceWrapPlugin)
         .add_plugins(bullets::BulletsPlugin)
+        .add_plugins(asteroids::AsteroidsPlugin)
         .add_systems(Startup, setup)
         .run();
 }
